@@ -1,16 +1,4 @@
 {
     "version": 2,
-    "framework": "nodejs",
-    "builds": [
-      {
-        "src": "index.js", 
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "index.js"
-      }
-    ]
+    "framework": "nodejs"
 }
