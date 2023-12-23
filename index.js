@@ -21,7 +21,7 @@ const connect = async () => {
 connect();
 
 // Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.static(path.resolve(__dirname, './client/build')));
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -96,7 +96,7 @@ app.post("/api/delete/:id", async (req, res) => {
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
 
 
