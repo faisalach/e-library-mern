@@ -37,10 +37,12 @@ app.get("/api", (req, res) => {
 app.get("/api/get_all", async (req, res) => {
 	try{
         const data = await BukuModel.find();
-        res.json(data)
+        res.end(JSON.stringify(data));
+        // res.json(data)
     }
     catch(error){
-        res.status(500).json({message: error.message})
+        res.end(`Failed : `+error.message);
+        // res.status(500).json({message: error.message})
     }
 });
 app.post("/api/insert", async (req, res) => {
@@ -55,10 +57,12 @@ app.post("/api/insert", async (req, res) => {
 	})
     try {
         const dataToSave = await data.save();
-        res.status(200).json(dataToSave)
+        res.end(`OK`);
+        // res.status(200).json(dataToSave)
     }
     catch (error) {
-        res.status(400).json({message: error.message})
+        res.end(`Failed`);
+        // res.status(400).json({message: error.message})
     }
 });
 app.post("/api/update/:id", async (req, res) => {
@@ -77,20 +81,24 @@ app.post("/api/update/:id", async (req, res) => {
         const result = await BukuModel.findByIdAndUpdate(
             id, updatedData, options
         )
-		res.status(200).json(result)
+        res.end(`OK`);
+		// res.status(200).json(result)
     }
     catch (error) {
-        res.status(400).json({ message: error.message })
+        res.end(`Failed`);
+        // res.status(400).json({ message: error.message })
     }
 });
 app.post("/api/delete/:id", async (req, res) => {
 	try {
         const id = req.params.id;
         const data = await BukuModel.findByIdAndDelete(id)
-		res.status(200).json(`Document with ${data.name} has been deleted..`)
+        res.end(`OK`);
+		// res.status(200).json(`Document with ${data.name} has been deleted..`)
     }
     catch (error) {
-        res.status(400).json({ message: error.message })
+        res.end(`Failed`);
+        // res.status(400).json({ message: error.message })
     }
 });
 
