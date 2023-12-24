@@ -21,7 +21,7 @@ const connect = async () => {
 connect();
 
 // Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, './client/build')));
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -32,17 +32,15 @@ app.use(
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
-	res.end("Hello from server!");
+	res.json({ message: "Hello from server!" });
 });
 app.get("/api/get_all", async (req, res) => {
 	try{
         const data = await BukuModel.find();
-        res.end(JSON.stringify(data));
-        // res.json(data)
+        res.json(data)
     }
     catch(error){
-        res.end(`Failed : `+error.message);
-        // res.status(500).json({message: error.message})
+        res.status(500).json({message: error.message})
     }
 });
 app.post("/api/insert", async (req, res) => {
@@ -57,12 +55,10 @@ app.post("/api/insert", async (req, res) => {
 	})
     try {
         const dataToSave = await data.save();
-        res.end(`OK`);
-        // res.status(200).json(dataToSave)
+        res.status(200).json(dataToSave)
     }
     catch (error) {
-        res.end(`Failed`);
-        // res.status(400).json({message: error.message})
+        res.status(400).json({message: error.message})
     }
 });
 app.post("/api/update/:id", async (req, res) => {
@@ -81,30 +77,26 @@ app.post("/api/update/:id", async (req, res) => {
         const result = await BukuModel.findByIdAndUpdate(
             id, updatedData, options
         )
-        res.end(`OK`);
-		// res.status(200).json(result)
+		res.status(200).json(result)
     }
     catch (error) {
-        res.end(`Failed`);
-        // res.status(400).json({ message: error.message })
+        res.status(400).json({ message: error.message })
     }
 });
 app.post("/api/delete/:id", async (req, res) => {
 	try {
         const id = req.params.id;
         const data = await BukuModel.findByIdAndDelete(id)
-        res.end(`OK`);
-		// res.status(200).json(`Document with ${data.name} has been deleted..`)
+		res.status(200).json(`Document with ${data.name} has been deleted..`)
     }
     catch (error) {
-        res.end(`Failed`);
-        // res.status(400).json({ message: error.message })
+        res.status(400).json({ message: error.message })
     }
 });
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
 
